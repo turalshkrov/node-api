@@ -1,5 +1,7 @@
 const express = require('express');
 const getTodo = require('../middlewares/getTodo');
+const todoValidationRules = require('../validators/todoValidator');
+const todoValidation = require('../middlewares/todoValidation');
 const Todo = require = require('../models/todo');
 
 const router = express.Router();
@@ -24,13 +26,13 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', todoValidationRules(), todoValidation, async (req, res) => {
   try {
     const { title, isCompleted } = req.body;
     if (!title) res.json(400).json({ message: 'title is required' });
     const todo = new Todo({ title, isCompleted });
     const newTodo = await todo.save();
-    res.json({
+    res.status(201).json({
       message: 'Todo created',
       content: newTodo,
     })
@@ -39,7 +41,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', getTodo, async (req, res) => {
+router.put('/:id', getTodo, todoValidationRules(), todoValidation, async (req, res) => {
   try {
     const id = req.params.id;
     const { title, isCompleted } = req.body;
