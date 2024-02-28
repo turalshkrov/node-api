@@ -15,11 +15,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', getTodo, async (req, res) => {
   try {
     const id = req.params.id;
     const todo = await Todo.findById(id);
-    if (!todo) res.status(404).json({ message: 'Todo not found' });
     res.json(todo);
   } catch (error) {
     res.status(500).json({ error });
@@ -29,7 +28,6 @@ router.get('/:id', async (req, res) => {
 router.post('/', todoValidationRules(), todoValidation, async (req, res) => {
   try {
     const { title, isCompleted } = req.body;
-    if (!title) res.json(400).json({ message: 'title is required' });
     const todo = new Todo({ title, isCompleted });
     const newTodo = await todo.save();
     res.status(201).json({
@@ -45,7 +43,6 @@ router.put('/:id', getTodo, todoValidationRules(), todoValidation, async (req, r
   try {
     const id = req.params.id;
     const { title, isCompleted } = req.body;
-    if (!title) res.json(400).json({ message: 'title is required' });
     const updatedTodo = await Todo.findByIdAndUpdate(id, {
       title, isCompleted
     });
