@@ -12,4 +12,9 @@ const Todo = new mongoose.Schema({
   }
 }, { collection: 'todos', versionKey: false });
 
+Todo.pre('save', async (next) => {
+  this.title = this.title.toLowerCase().trim();
+  next();
+});
+
 module.exports = mongoose.model('todos', Todo);

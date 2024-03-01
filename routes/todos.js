@@ -1,6 +1,6 @@
 const express = require('express');
-const getTodo = require('../middlewares/getTodo');
-const todoValidationRules = require('../validators/todoValidator');
+const getTodoById = require('../middlewares/getTodoById');
+const todoValidationRules = require('../validators/todoValidationRules');
 const todoValidation = require('../middlewares/todoValidation');
 const Todo = require = require('../models/todo');
 
@@ -15,11 +15,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', getTodo, async (req, res) => {
+router.get('/:id', getTodoById, async (req, res) => {
   try {
-    const id = req.params.id;
-    const todo = await Todo.findById(id);
-    res.json(todo);
+    res.json(res.todo);
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -39,7 +37,7 @@ router.post('/', todoValidationRules(), todoValidation, async (req, res) => {
   }
 });
 
-router.put('/:id', getTodo, todoValidationRules(), todoValidation, async (req, res) => {
+router.put('/:id', getTodoById, todoValidationRules(), todoValidation, async (req, res) => {
   try {
     const id = req.params.id;
     const { title, isCompleted } = req.body;
@@ -55,7 +53,7 @@ router.put('/:id', getTodo, todoValidationRules(), todoValidation, async (req, r
   }
 });
 
-router.delete('/:id', getTodo, async (req, res) => {
+router.delete('/:id', getTodoById, async (req, res) => {
   try {
     const id = req.params.id;
     const deletedTodo = await Todo.findByIdAndDelete(id);

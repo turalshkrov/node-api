@@ -1,6 +1,6 @@
 const Todo = require("../models/todo");
 
-const getTodo = async (req, res, next) => {
+const getTodoById = async (req, res, next) => {
   try {
     const id = req.params.id;
     if (id.length !== 24) return res.status(400).json({ message: 'Invalid id value' });
@@ -13,4 +13,4 @@ const getTodo = async (req, res, next) => {
   next();
 }
 
-module.exports = getTodo;
+module.exports = getTodoById;
