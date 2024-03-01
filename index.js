@@ -17,6 +17,8 @@ mongoose.connect(process.env.DATABASE_SERVER_URL)
 
 const todosRouter = require('./routes/todos');
 const usersRouter = require('./routes/users');
+const categoryRouter = require('./routes/categories');
+app.use('/categories', categoryRouter);
 app.use('/todos', todosRouter);
 app.use('/users', usersRouter);
 

@@ -29,7 +29,7 @@ router.post('/', todoValidationRules(), todoValidation, async (req, res) => {
     const todo = new Todo({ title, isCompleted });
     const newTodo = await todo.save();
     res.status(201).json({
-      message: 'Todo created',
+      message: 'Todo created successfully',
       content: newTodo,
     })
   } catch (error) {
@@ -45,7 +45,7 @@ router.put('/:id', getTodoById, todoValidationRules(), todoValidation, async (re
       title, isCompleted
     });
     res.json({
-      message: 'Todo Updated',
+      message: 'Todo Updated successfully',
       content: updatedTodo,
     })
   } catch (error) {
@@ -58,7 +58,7 @@ router.delete('/:id', getTodoById, async (req, res) => {
     const id = req.params.id;
     const deletedTodo = await Todo.findByIdAndDelete(id);
     res.json({
-      message: "Todo deleted",
+      message: 'Todo deleted successfully',
       content: deletedTodo,
     });
   } catch (error) {

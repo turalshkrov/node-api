@@ -9,6 +9,7 @@ const Category = new mongoose.Schema({
   description: {
     type: String,
     required: false,
+    default: "",
   }
 }, { collection: 'category', versionKey: false });
 

@@ -1,5 +1,8 @@
 const express = require('express');
 const Category = require('../models/category');
+const getCategoryById = require('../middlewares/getCategoryById');
+const categoryValidationRules = require('../validators/categoryValidationRules');
+const categoryValidation = require('../middlewares/categoryValidation');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -11,7 +14,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/id', getCategoryById, async (req, res) => {
+router.get('/:id', getCategoryById, async (req, res) => {
   try {
     res.status(200).json(res.category);
   } catch (error) {
@@ -37,8 +40,10 @@ router.put('/:id', getCategoryById, categoryValidationRules(), categoryValidatio
   try {
     const id = req.params.id;
     const { categoryName, description } = req.body;
-    const updatedCategory = await Category.findByIdAndUpdate(id, { categoryName, description });
-    res.status(204).json({
+    const updatedCategory = await Category.findByIdAndUpdate(id, { 
+      categoryName, description 
+    });
+    res.json({
       message: 'Category updated successfully',
       content: updatedCategory,
     });
@@ -59,3 +64,5 @@ router.delete('/:id', getCategoryById, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+module.exports = router;

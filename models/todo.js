@@ -17,4 +17,10 @@ Todo.pre('save', async (next) => {
   next();
 });
 
+Todo.pre('findOneAndUpdate', async (next) => {
+  this._update.title = this._update.title.toLowerCase().trim();
+  next();
+});
+
+
 module.exports = mongoose.model('todos', Todo);
