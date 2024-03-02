@@ -18,9 +18,11 @@ mongoose.connect(process.env.DATABASE_SERVER_URL)
 const todosRouter = require('./routes/todos');
 const usersRouter = require('./routes/users');
 const categoryRouter = require('./routes/categories');
-app.use('/categories', categoryRouter);
-app.use('/todos', todosRouter);
-app.use('/users', usersRouter);
+const productRouter = require('./routes/products');
+app.use('/api/categories', categoryRouter);
+app.use('/api/todos', todosRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/products', productRouter);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => { console.log(`server running on port ${PORT}`) });
