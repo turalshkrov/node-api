@@ -8,8 +8,12 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
+    const searchKey = req.query.search.toLowerCase() || '';
     const products = await Product.find();
-    res.status(200).json(products);
+    const filteredProducts = products.filter(product => 
+      product.title.toLocaleLowerCase().includes(searchKey) ||
+      product.description.toLocaleLowerCase().includes(searchKey));
+    res.status(200).json(filteredProducts);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -41,7 +45,6 @@ router.post('/', productValidationRules(), productValidation, async (req, res) =
     const product = new Product({ 
       title, description, price, categoryId 
     });
-    console.log(product);
     const newProduct = await product.save();
     res.json({ 
       message: 'Product created successfully',
