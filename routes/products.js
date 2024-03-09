@@ -8,11 +8,11 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const searchKey = req.query.search.toLowerCase() || '';
+    const searchKey = req.query.search || '';
     const products = await Product.find();
     const filteredProducts = products.filter(product => 
-      product.title.toLocaleLowerCase().includes(searchKey) ||
-      product.description.toLocaleLowerCase().includes(searchKey));
+      product.title.toLocaleLowerCase().includes(searchKey.toLowerCase()) ||
+      product.description.toLocaleLowerCase().includes(searchKey.toLowerCase()));
     res.status(200).json(filteredProducts);
   } catch (error) {
     res.status(500).json(error);
