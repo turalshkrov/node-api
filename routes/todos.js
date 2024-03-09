@@ -8,8 +8,11 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
+    const searchKey = req.query.search || '';
     const todos = await Todo.find();
-    res.json(todos);
+    const filteredTodos = todos.filter(todo => 
+      todo.title.toLowerCase().includes(searchKey.toLowerCase()));
+    res.json(filteredTodos);
   } catch (err) {
     res.json(err);
   }
