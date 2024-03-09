@@ -7,8 +7,13 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
+    const searchKey = req.query.search || '';
     const users = await User.find();
-    res.status(200).json(users);
+    const filteredUsers = users.filter(user => 
+      user.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+      user.username.toLowerCase().includes(searchKey.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchKey.toLowerCase()));
+    res.status(200).json(filteredUsers);
   } catch (error) {
     res.status(500).json(error);
   }
