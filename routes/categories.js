@@ -7,8 +7,12 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
+    const searchKey = req.query.search || '';
     const categories = await Category.find();
-    res.status(200).json(categories);
+    const filteredCategories = categories.filter(category => 
+      category.categoryName.includes(searchKey.toLowerCase()) || 
+      category.description.includes(searchKey.toLowerCase()));
+    res.status(200).json(filteredCategories);
   } catch (error) {
     res.status(500).json(error);
   }
